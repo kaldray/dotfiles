@@ -1,0 +1,2 @@
+[2m2023-09-13T13:05:42.627570Z[0m [31mERROR[0m [2mfig_ipc::unix_socket[0m[2m:[0m [2m21:[0m Failed to connect [3merr[0m[2m=[0mConnection refused (os error 61) [3msocket[0m[2m=[0m"/var/tmp/fig/Jordray/secure.socket"
+[2m2023-09-13T13:05:47.628183Z[0m [31mERROR[0m [2mfig_ipc::unix_socket[0m[2m:[0m [2m21:[0m Failed to connect [3merr[0m[2m=[0mConnection refused (os error 61) [3msocket[0m[2m=[0m"/var/tmp/fig/Jordray/secure.socket"
