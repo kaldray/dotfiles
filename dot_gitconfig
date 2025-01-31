@@ -3,3 +3,16 @@
 [user]
 	email = jordray@protonmail.com
 	name = kaldray
+	ui = auto
+ [user]
+ 	email = jordray@protonmail.com
+ 	name = kaldray
+	signingkey = /Users/jordray/.ssh/id_rsa.pub
+[gpg]
+	format = ssh
+[init]
+    defaultBranch = main
+[commit]
+	gpgsign = true
+[core]
+	excludesfile = /Users/jordray/.gitignore
