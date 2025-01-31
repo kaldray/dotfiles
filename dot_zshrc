@@ -2,12 +2,14 @@ export PNPM_HOME="/Users/jordray/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 export ROOT=/Users/jordray
 export PATH=/opt/homebrew/bin:$PATH
-export DEV=/Users/jordray/Dev
+export dev=/Users/jordray/Dev
 export NODE_ENV=development
 export STATLIST_SSH="/Users/jordray/.ssh/vps_statlist"
 export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --info=inline --border --margin=1 --padding=1"
-export PATH="/usr/bin/python3:$PATH"
-export PATH="$HOME/Library/Python/3.10/bin:$PATH"
+export PATH=$PATH:/Users/jordray/.local/bin
+export PATH=$HOME/Developer/flutter/bin:$PATH
+# export PATH="/usr/bin/python3:$PATH"
+# export PATH="$HOME/Library/Python/3.10/bin:$PATH"
 
 
 ## HOMEBREW CONFIG
@@ -25,6 +27,9 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # aliases
 alias p="pnpm"
 alias ls="ls --color"
+alias python=python3
+alias pip=pip3
+alias lg='lazygit'
 # alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
 
@@ -99,3 +104,5 @@ DRACULA_DISPLAY_FULL_CWD=1
 DRACULA_DISPLAY_CONTEXT=1
 
 antidote load
+
+eval "$(pkgx --quiet dev --shellcode)"  # https://github.com/pkgxdev/dev
