@@ -1,0 +1,8 @@
+dracula/zsh
+mattmc3/ez-compinit
+belak/zsh-utils path:completion kind:defer
+ohmyzsh/ohmyzsh path:plugins/fzf kind:defer
+zsh-users/zsh-syntax-highlighting kind:defer
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions kind:defer
+Aloxaf/fzf-tab kind:defer
