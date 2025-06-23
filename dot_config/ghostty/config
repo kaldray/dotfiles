@@ -1,0 +1,19 @@
+# Font
+
+font-family = DaddyTimeMono
+font-size = 14.0
+# Display
+
+window-colorspace = display-p3
+theme = dracula+
+background-opacity = 0.90
+
+# Window
+
+window-padding-x = 4
+window-padding-y = 4
+
+
+# Global
+
+quit-after-last-window-closed = true
