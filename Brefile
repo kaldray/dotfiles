@@ -1,87 +1,112 @@
-cask_args appdir: "/Applications"
+# Brewfile généré à partir de votre liste
 
+# Formulae (packages)
+brew "antidote"
+brew "aom"
+brew "apr"
+brew "apr-util"
+brew "argon2"
+brew "aspell"
+brew "autoconf"
+brew "bash-language-server"
+brew "brotli"
+brew "c-ares"
+brew "ca-certificates"
+brew "cairo"
+brew "chezmoi"
+brew "cocoapods"
+brew "curl"
+brew "deno"
+brew "flyctl"
+brew "fontconfig"
+brew "freetds"
+brew "freetype"
+brew "fzf"
+brew "gd"
+brew "gettext"
+brew "giflib"
+brew "glib"
+brew "gmp"
+brew "graphite2"
+brew "harfbuzz"
+brew "highway"
+brew "icu4c@76"
+brew "icu4c@77"
+brew "imath"
+brew "jpeg-turbo"
+brew "jpeg-xl"
+brew "krb5"
+brew "lazygit"
+brew "libavif"
+brew "libdeflate"
+brew "libnghttp2"
+brew "libpng"
+brew "libpq"
+brew "libsodium"
+brew "libssh2"
+brew "libtiff"
+brew "libtool"
+brew "libunistring"
+brew "libuv"
+brew "libvmaf"
+brew "libx11"
+brew "libxau"
+brew "libxcb"
+brew "libxdmcp"
+brew "libxext"
+brew "libxrender"
+brew "libyaml"
+brew "libzip"
+brew "little-cms2"
+brew "lz4"
+brew "lzo"
+brew "m4"
+brew "mailhog"
+brew "mailpit"
+brew "mkcert"
+brew "mpdecimal"
+brew "net-snmp"
+brew "nixpacks"
+brew "node"
+brew "nspr"
+brew "nss"
+brew "oniguruma"
+brew "openexr"
+brew "openjdk"
+brew "openldap"
+brew "openssl@3"
+brew "pcre2"
+brew "php"
+brew "php@8.1"
+brew "pixman"
+brew "pkgx"
+brew "pnpm"
+brew "python-tk@3.13"
+brew "python@3.13"
+brew "readline"
+brew "rtmpdump"
+brew "ruby"
+brew "shellcheck"
+brew "sqlite"
+brew "symfony-cli"
+brew "tcl-tk"
+brew "tidy-html5"
+brew "unixodbc"
+brew "webp"
+brew "xorgproto"
+brew "xz"
+brew "zoxide"
+brew "zstd"
 
-#cask
+# Casks (applications)
+cask "arc"
+cask "background-music"
+cask "db-browser-for-sqlite"
+cask "docker"
+cask "ghostty"
+cask "ngrok"
+cask "raycast"
+cask "visual-studio-code"
+cask "zed"
+cask "zen-browser" 
 
-
-
-#formulae
-antidote
-aom
-apr
-apr-util
-argon2
-aspell
-autoconf
-bash-language-server
-brotli
-c-ares
-ca-certificates
-chezmoi
-cocoapods
-curl
-deno
-flyctl
-fontconfig
-freetds
-freetype
-fzf
-gd
-gettext
-giflib
-gmp
-highway
-icu4c@76
-imath
-jpeg-turbo
-jpeg-xl
-krb5
-lazygit
-libavif
-libdeflate
-libnghttp2
-libpng
-libpq
-libsodium
-libssh2
-libtiff
-libtool
-libunistring
-libuv
-libvmaf
-libyaml
-libzip
-little-cms2
-lz4
-m4
-mailpit
-mkcert
-mpdecimal
-nixpacks
-node
-nspr
-nss
-oniguruma
-openexr
-openldap
-openssl@3
-pcre2
-php
-php@8.1
-pkgx
-pnpm
-python-tk@3.13
-python@3.13
-readline
-rtmpdump
-ruby
-shellcheck
-sqlite
-symfony-cli
-tcl-tk
-tidy-html5
-unixodbc
-webp
-xz
-zoxide
-zstd
