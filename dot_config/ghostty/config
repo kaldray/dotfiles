@@ -5,8 +5,8 @@ font-size = 14.0
 # Display
 
 window-colorspace = display-p3
-theme = dracula+
-background-opacity = 0.90
+theme = Catppuccin Frappe
+background-opacity = 1
 
 # Window
 
@@ -17,3 +17,4 @@ window-padding-y = 4
 # Global
 
 quit-after-last-window-closed = true
+shell-integration-features = title,cursor
