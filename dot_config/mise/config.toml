@@ -1,9 +1,21 @@
 [tools]
-node = "24"
-python = "3.13"
-usage = "latest"
+# JavaScript/TypeScript runtimes
+node = "24"                 # Node.js LTS
+deno = "latest"             # Deno runtime
+
+# Python
+python = "3.13"             # Python 3.13
+
+# Java
+java = "21"                 # Java LTS (OpenJDK 21) - required for OpenJML
+
 
 [settings]
+# Auto-install tools when entering directory with .tool-versions
+legacy_version_file = true
+
+# Use verbose output for debugging (set to true if needed)
+verbose = false
 
 [settings.npm]
 package_manager = "pnpm"

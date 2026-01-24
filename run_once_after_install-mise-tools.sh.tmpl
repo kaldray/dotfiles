@@ -1,0 +1,107 @@
+#!/bin/bash
+{{- if .install_dev_tools }}
+
+set -e
+
+echo "🛠️  Installing mise development tools..."
+echo ""
+
+# ============================================
+# VÉRIFIER MISE
+# ============================================
+
+if ! command -v mise &> /dev/null; then
+    echo "❌ mise not found. Should have been installed via package manager"
+    echo "   Please install mise first:"
+    echo "   - macOS: brew install mise"
+    echo "   - Windows: choco install mise"
+    exit 1
+fi
+
+echo "✅ mise version: $(mise --version)"
+echo ""
+
+# ============================================
+# INSTALLER LES OUTILS DEPUIS CONFIG.TOML
+# ============================================
+
+echo "📦 Installing tools from ~/.config/mise/config.toml..."
+echo ""
+
+# Installer les outils
+mise install
+
+echo ""
+echo "✅ Tools installed successfully!"
+echo ""
+
+# ============================================
+# AFFICHER LES OUTILS INSTALLÉS
+# ============================================
+
+echo "📋 Installed tools:"
+mise list
+
+echo ""
+
+# ============================================
+# VÉRIFIER ACTIVATION MISE DANS SHELL
+# ============================================
+
+{{- if eq .chezmoi.os "darwin" }}
+# Vérifier que mise est activé dans .zshrc
+if ! grep -q 'mise activate' {{ .chezmoi.homeDir }}/.zshrc 2>/dev/null; then
+    echo "⚠️  mise activation not found in ~/.zshrc"
+    echo "   Adding mise activation to ~/.zshrc..."
+    echo '' >> {{ .chezmoi.homeDir }}/.zshrc
+    echo '# Mise activation' >> {{ .chezmoi.homeDir }}/.zshrc
+    echo 'eval "$(mise activate zsh)"' >> {{ .chezmoi.homeDir }}/.zshrc
+    echo "✅ mise activation added to ~/.zshrc"
+else
+    echo "✅ mise already activated in ~/.zshrc"
+fi
+{{- end }}
+
+{{- if eq .chezmoi.os "windows" }}
+# Sur Windows, vérifier PowerShell profile
+if (!(Test-Path $PROFILE)) {
+    New-Item -Path $PROFILE -ItemType File -Force
+}
+
+if (!(Select-String -Path $PROFILE -Pattern "mise activate" -Quiet)) {
+    echo "⚠️  mise activation not found in PowerShell profile"
+    echo "   Adding mise activation..."
+    Add-Content -Path $PROFILE -Value "`n# Mise activation"
+    Add-Content -Path $PROFILE -Value 'Invoke-Expression (& mise activate powershell | Out-String)'
+    echo "✅ mise activation added to PowerShell profile"
+} else {
+    echo "✅ mise already activated in PowerShell profile"
+}
+{{- end }}
+
+echo ""
+
+# ============================================
+# RÉSUMÉ
+# ============================================
+
+echo "════════════════════════════════════════"
+echo "✅ mise tools setup complete!"
+echo "════════════════════════════════════════"
+echo ""
+echo "📋 Installed runtimes:"
+echo "  • Node.js $(mise where node 2>/dev/null | xargs -I {} echo "({})") "
+echo "  • Python $(mise where python 2>/dev/null | xargs -I {} echo "({})") "
+echo "  • Deno $(mise where deno 2>/dev/null | xargs -I {} echo "({})") "
+echo "  • Java $(mise where java 2>/dev/null | xargs -I {} echo "({})") "
+echo ""
+echo "💡 Usage:"
+echo "  • mise list              - Show installed tools"
+echo "  • mise use node@20       - Switch to Node 20"
+echo "  • mise install           - Install tools from config"
+echo "  • mise upgrade           - Upgrade all tools"
+echo ""
+echo "⚠️  Restart your terminal to activate mise and use the installed tools"
+echo ""
+
+{{- end }}

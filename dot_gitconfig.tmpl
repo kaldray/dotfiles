@@ -1,0 +1,23 @@
+[color]
+    ui = auto
+
+[user]
+    email = {{ .git_email }}
+    name = {{ .git_name }}
+{{- if stat (joinPath .chezmoi.homeDir ".ssh/id_rsa") }}
+    signingkey = {{ .chezmoi.homeDir }}/.ssh/id_rsa.pub
+{{- end }}
+
+[gpg]
+    format = ssh
+
+[init]
+    defaultBranch = main
+
+{{- if stat (joinPath .chezmoi.homeDir ".ssh/id_rsa") }}
+[commit]
+    gpgsign = true
+{{- end }}
+
+[core]
+    excludesfile = {{ .chezmoi.homeDir }}/.gitignore

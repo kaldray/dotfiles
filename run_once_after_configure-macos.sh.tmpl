@@ -1,0 +1,173 @@
+#!/bin/bash
+{{- if and (eq .chezmoi.os "darwin") .configure_system }}
+
+set -e
+
+echo "⚙️  Configuring macOS system preferences..."
+echo ""
+
+# ============================================
+# DOCK
+# ============================================
+echo "🎯 Configuring Dock..."
+
+# Taille des icônes (16-128, défaut: 48)
+defaults write com.apple.dock tilesize -int 48
+
+# Position (left, bottom, right)
+defaults write com.apple.dock orientation -string "right"
+
+# Auto-hide
+defaults write com.apple.dock autohide -bool true
+
+# Délai avant apparition (0 = immédiat, défaut: 0.5)
+defaults write com.apple.dock autohide-delay -float 0
+
+# Animation d'apparition rapide (défaut: 0.5)
+defaults write com.apple.dock autohide-time-modifier -float 0.5
+
+# Minimiser dans l'icône de l'application
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Afficher les indicateurs pour apps ouvertes
+defaults write com.apple.dock show-process-indicators -bool true
+
+# Ne pas afficher apps récentes
+defaults write com.apple.dock show-recents -bool false
+
+# Grossissement au survol
+defaults write com.apple.dock magnification -bool true
+defaults write com.apple.dock largesize -int 64
+
+echo "✅ Dock configured"
+
+# ============================================
+# FINDER
+# ============================================
+echo "📁 Configuring Finder..."
+
+# Afficher extensions de fichiers
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Afficher fichiers cachés
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+# Afficher barre de chemin
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Afficher barre de statut
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Vue par défaut (icône = `icnv`, liste = `Nlsv`, colonnes = `clmv`, galerie = `glyv`)
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+
+# Chercher dans dossier actuel par défaut
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+# Désactiver avertissement changement d'extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Désactiver animation d'ouverture
+defaults write com.apple.finder DisableAllAnimations -bool true
+
+echo "✅ Finder configured"
+
+# ============================================
+# TRACKPAD
+# ============================================
+echo "🖱️  Configuring Trackpad..."
+
+# Activer tap-to-click
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# Vitesse de tracking (0-3, défaut: 1)
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 2
+
+# Scroll naturel (true = comme iPad, false = inversé)
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+
+echo "✅ Trackpad configured"
+
+# ============================================
+# PERFORMANCES & ANIMATIONS
+# ============================================
+echo "⚡ Optimizing performance..."
+
+# Désactiver animations d'ouverture de fenêtres
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
+# Accélérer Mission Control
+defaults write com.apple.dock expose-animation-duration -float 0.1
+
+# Accélérer ouverture Quick Look
+defaults write -g QLPanelAnimationDuration -float 0
+
+# Désactiver délai d'affichage tooltips
+defaults write NSGlobalDomain NSInitialToolTipDelay -int 0
+
+echo "✅ Performance optimized"
+
+# ============================================
+# CAPTURES D'ÉCRAN
+# ============================================
+echo "📸 Configuring screenshots..."
+
+# Créer dossier Screenshots si inexistant
+mkdir -p {{ .chezmoi.homeDir }}/Screenshots
+
+# Emplacement
+defaults write com.apple.screencapture location -string "{{ .chezmoi.homeDir }}/Screenshots"
+
+# Format (PNG par défaut, options: BMP, GIF, JPG, PDF, TIFF)
+defaults write com.apple.screencapture type -string "png"
+
+# Désactiver ombre
+defaults write com.apple.screencapture disable-shadow -bool true
+
+# Inclure date dans nom
+defaults write com.apple.screencapture include-date -bool true
+
+echo "✅ Screenshots configured (saved to ~/Screenshots)"
+
+# ============================================
+# DIVERS
+# ============================================
+echo "🔧 Other system tweaks..."
+
+# Désactiver son au démarrage
+sudo nvram SystemAudioVolume=" " 2>/dev/null || echo "⚠️  Could not disable startup sound (requires admin)"
+
+# Toujours afficher scrollbars
+defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+
+# Expand save panel par défaut
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+
+# Expand print panel par défaut
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+
+# Désactiver correction auto
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+echo "✅ System tweaks applied"
+
+# ============================================
+# APPLIQUER LES CHANGEMENTS
+# ============================================
+echo ""
+echo "🔄 Applying changes..."
+
+# Relancer Dock et Finder
+killall Dock
+killall Finder
+
+echo ""
+echo "════════════════════════════════════════"
+echo "✅ macOS configuration complete!"
+echo "════════════════════════════════════════"
+echo ""
+echo "⚠️  Some changes may require a logout/restart to take full effect"
+echo ""
+
+{{- end }}

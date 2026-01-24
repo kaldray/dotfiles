@@ -1,10 +1,84 @@
 #!/bin/bash
-{{- if eq .chezmoi.os "darwin" -}}
+{{- if eq .chezmoi.os "darwin" }}
 
+set -e  # Exit on error
 
+echo "🍺 Setting up macOS environment..."
+echo ""
+
+# ============================================
+# VÉRIFIER/INSTALLER HOMEBREW
+# ============================================
+
+if ! command -v brew &> /dev/null; then
+    echo "📦 Homebrew not found. Installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    # Ajouter Homebrew au PATH pour session actuelle
+    if [[ $(uname -m) == "arm64" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+    
+    echo "✅ Homebrew installed successfully!"
+else
+    echo "✅ Homebrew found: $(brew --version | head -1)"
+fi
+
+# Vérifier que brew est accessible
+if ! command -v brew &> /dev/null; then
+    echo "❌ Homebrew installation failed or not in PATH"
+    exit 1
+fi
+
+echo ""
+
+# ============================================
+# METTRE À JOUR HOMEBREW
+# ============================================
+
+echo "🔄 Updating Homebrew..."
+brew update
+
+echo ""
+
+# ============================================
+# INSTALLER PACKAGES DEPUIS BREWFILE
+# ============================================
+
+echo "📦 Installing packages from Brewfile..."
+echo ""
+
+# Export options pour Homebrew Cask
 export HOMEBREW_CASK_OPTS=--no-quarantine
 
-brew bundle
+# Installer depuis Brewfile
+if [ -f "{{ .chezmoi.sourceDir }}/Brewfile" ]; then
+    brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"
+    echo ""
+    echo "✅ Homebrew packages installed successfully!"
+else
+    echo "⚠️  Brewfile not found at {{ .chezmoi.sourceDir }}/Brewfile"
+    exit 1
+fi
 
+echo ""
 
-{{ end -}}
+# ============================================
+# RÉSUMÉ
+# ============================================
+
+echo "════════════════════════════════════════"
+echo "✅ macOS setup complete!"
+echo "════════════════════════════════════════"
+echo ""
+echo "📋 Next steps:"
+echo "  1. Restart your terminal to load new configurations"
+{{- if .install_dev_tools }}
+echo "  2. Run 'mise install' to install development tools"
+{{- end }}
+echo "  3. Enjoy your configured environment! 🎉"
+echo ""
+
+{{- end }}

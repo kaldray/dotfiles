@@ -1,0 +1,28 @@
+{{- $git_name := "kaldray" -}}
+{{- $git_email := "jordray@protonmail.com" -}}
+{{- $is_work_machine := false -}}
+{{- $install_dev_tools := true -}}
+{{- $install_fonts := true -}}
+{{- $configure_system := true -}}
+
+{{- if stdinIsATTY -}}
+
+{{- $git_name = promptString "Git username" $git_name -}}
+{{- $git_email = promptString "Git email" $git_email -}}
+{{- $is_work_machine = promptBool "Is this a work machine" $is_work_machine -}}
+{{- $install_dev_tools = promptBool "Install development tools (mise, node, python)" $install_dev_tools -}}
+
+{{- if eq .chezmoi.os "darwin" -}}
+{{- $install_fonts = promptBool "Install Nerd Fonts" $install_fonts -}}
+{{- $configure_system = promptBool "Configure macOS system preferences" $configure_system -}}
+{{- end -}}
+
+{{- end -}}
+
+[data]
+    git_name = {{ $git_name | quote }}
+    git_email = {{ $git_email | quote }}
+    is_work_machine = {{ $is_work_machine }}
+    install_dev_tools = {{ $install_dev_tools }}
+    install_fonts = {{ $install_fonts }}
+    configure_system = {{ $configure_system }}

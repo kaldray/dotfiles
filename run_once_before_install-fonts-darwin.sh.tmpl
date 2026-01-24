@@ -1,0 +1,84 @@
+#!/bin/bash
+{{- if and (eq .chezmoi.os "darwin") .install_fonts }}
+
+set -e
+
+echo "🔤 Installing Nerd Fonts..."
+echo ""
+
+# ============================================
+# NOTE
+# ============================================
+
+# Les polices sont déjà dans le Brewfile et seront installées
+# par le script run_once_before_install-packages-darwin.sh.tmpl
+# 
+# Ce script est optionnel et sert à:
+# - Vérifier l'installation des polices
+# - Configurer des polices supplémentaires si nécessaire
+# - Installer des polices depuis d'autres sources
+
+echo "ℹ️  Nerd Fonts are installed via Brewfile:"
+echo "  • font-jetbrains-mono-nerd-font"
+echo "  • font-daddy-time-mono-nerd-font"
+echo ""
+
+# ============================================
+# VÉRIFIER L'INSTALLATION DES POLICES
+# ============================================
+
+echo "🔍 Verifying font installation..."
+
+FONTS_DIR="$HOME/Library/Fonts"
+
+if ls "$FONTS_DIR"/*JetBrains* &> /dev/null; then
+    echo "✅ JetBrainsMono Nerd Font found"
+else
+    echo "⚠️  JetBrainsMono Nerd Font not found in $FONTS_DIR"
+    echo "   It should be installed via Homebrew Cask"
+fi
+
+if ls "$FONTS_DIR"/*DaddyTime* &> /dev/null || ls "$FONTS_DIR"/*daddytime* &> /dev/null; then
+    echo "✅ DaddyTimeMono Nerd Font found"
+else
+    echo "⚠️  DaddyTimeMono Nerd Font not found in $FONTS_DIR"
+    echo "   It should be installed via Homebrew Cask"
+fi
+
+echo ""
+
+# ============================================
+# LISTER LES POLICES NERD FONT INSTALLÉES
+# ============================================
+
+echo "📋 Installed Nerd Fonts in $FONTS_DIR:"
+ls "$FONTS_DIR" | grep -i "nerd\|mono" | head -10 || echo "  (No Nerd Fonts found yet - they will be installed via Brewfile)"
+
+echo ""
+
+# ============================================
+# OPTIONNEL: INSTALLER DES POLICES SUPPLÉMENTAIRES
+# ============================================
+
+# Décommentez les lignes ci-dessous pour installer des polices supplémentaires:
+
+# echo "📦 Installing additional fonts..."
+# brew install --cask font-fira-code-nerd-font
+# brew install --cask font-meslo-lg-nerd-font
+# brew install --cask font-hack-nerd-font
+
+# ============================================
+# RÉSUMÉ
+# ============================================
+
+echo "════════════════════════════════════════"
+echo "✅ Fonts setup complete!"
+echo "════════════════════════════════════════"
+echo ""
+echo "💡 To use these fonts:"
+echo "  • Terminal: Set font to 'JetBrainsMono Nerd Font'"
+echo "  • VSCode: \"editor.fontFamily\": \"'JetBrainsMono Nerd Font'\""
+echo "  • Alacritty: family: \"JetBrainsMono Nerd Font\""
+echo ""
+
+{{- end }}
