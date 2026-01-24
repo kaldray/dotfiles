@@ -1,0 +1,9 @@
+[tools]
+node = "24"
+python = "3.13"
+usage = "latest"
+
+[settings]
+
+[settings.npm]
+package_manager = "pnpm"
