@@ -2,16 +2,18 @@ export PNPM_HOME="/Users/jordray/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 export ROOT=/Users/jordray
 export PATH=/opt/homebrew/bin:$PATH
-export dev=/Users/jordray/Dev
 export NODE_ENV=development
 export STATLIST_SSH="/Users/jordray/.ssh/vps_statlist"
 export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --info=inline --border --margin=1 --padding=1"
 export PATH=$PATH:/Users/jordray/.local/bin
 export PATH=$HOME/Developer/flutter/bin:$PATH
-# export PATH="/usr/bin/python3:$PATH"
-# export PATH="$HOME/Library/Python/3.10/bin:$PATH"
-
-
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export XDG_CONFIG_HOME="$HOME/.config"
+export PATH=/Users/jordray/.opencode/bin:$PATH
+export PATH="/Users/jordray/Library/Application Support/Herd/bin/":$PATH
+export HERD_PHP_82_INI_SCAN_DIR="/Users/jordray/Library/Application Support/Herd/config/php/82/"
+export HERD_PHP_74_INI_SCAN_DIR="/Users/jordray/Library/Application Support/Herd/config/php/74/"
+export PATH="$HOME/Developer/openjml-macos-13-21-0.18:$PATH"
 ## HOMEBREW CONFIG
 export HOMEBREW_NO_AUTO_UPDATE=1
 
@@ -27,34 +29,8 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # aliases
 alias p="pnpm"
 alias ls="ls --color"
-alias python=python3
-alias pip=pip3
 alias lg='lazygit'
 # alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
-
-
-
-
-# load-nvmrc() {
-#   local nvmrc_path
-#   nvmrc_path="$(nvm_find_nvmrc)"
-
-#   if [ -n "$nvmrc_path" ]; then
-#     local nvmrc_node_version
-#     nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-#     if [ "$nvmrc_node_version" = "N/A" ]; then
-#       nvm install
-#     elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-#       nvm use
-#     fi
-#   elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-#     echo "Reverting to nvm default version"
-#     nvm use default
-#   fi
-# }
-
-# add-zsh-hook chpwd load-nvmrc
 
 precmd() {
   vcs_info
@@ -95,6 +71,7 @@ autoload -Uz vcs_info
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+eval "$(mise activate zsh)"
 # source <(fzf --zsh)
 
 
@@ -104,5 +81,3 @@ DRACULA_DISPLAY_FULL_CWD=1
 DRACULA_DISPLAY_CONTEXT=1
 
 antidote load
-
-eval "$(pkgx --quiet dev --shellcode)"  # https://github.com/pkgxdev/dev
