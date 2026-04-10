@@ -1,0 +1,39 @@
+#!/bin/bash
+{{- if and (eq .chezmoi.os "linux") .install_fonts }}
+
+set -euo pipefail
+
+FONT_DIR="$HOME/.local/share/fonts"
+TMP_DIR="$(mktemp -d)"
+ZIP_PATH="$TMP_DIR/DaddyTimeMono.zip"
+
+mkdir -p "$FONT_DIR"
+
+echo "🔤 Installing DaddyTimeMono Nerd Font..."
+
+installed=false
+
+if command -v pacman >/dev/null 2>&1; then
+  if sudo pacman -S --needed --noconfirm ttf-daddytime-mono-nerd; then
+    installed=true
+  fi
+fi
+
+if [ "$installed" = "false" ] && command -v yay >/dev/null 2>&1; then
+  if yay -S --needed --noconfirm ttf-daddytime-mono-nerd; then
+    installed=true
+  fi
+fi
+
+if [ "$installed" = "false" ]; then
+  echo "📥 Package not found, downloading from Nerd Fonts release..."
+  curl -fsSL -o "$ZIP_PATH" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/DaddyTimeMono.zip"
+  unzip -o "$ZIP_PATH" -d "$FONT_DIR" >/dev/null
+fi
+
+fc-cache -fv
+echo "✅ DaddyTimeMono Nerd Font installed."
+
+rm -rf "$TMP_DIR"
+
+{{- end }}

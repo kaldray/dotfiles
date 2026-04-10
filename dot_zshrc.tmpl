@@ -1,7 +1,13 @@
+{{- if eq .chezmoi.os "darwin" }}
 export PNPM_HOME="{{ .chezmoi.homeDir }}/Library/pnpm"
+{{- else }}
+export PNPM_HOME="{{ .chezmoi.homeDir }}/.local/share/pnpm"
+{{- end }}
 export PATH="$PNPM_HOME:$PATH"
 export ROOT={{ .chezmoi.homeDir }}
+{{- if eq .chezmoi.os "darwin" }}
 export PATH=/opt/homebrew/bin:$PATH
+{{- end }}
 export NODE_ENV=development
 export STATLIST_SSH="{{ .chezmoi.homeDir }}/.ssh/vps_statlist"
 export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --info=inline --border --margin=1 --padding=1"
@@ -14,7 +20,9 @@ export PATH="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/bin/":$PATH
 export HERD_PHP_82_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/82/"
 export HERD_PHP_74_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/74/"
 {{- end }}
+{{- if eq .chezmoi.os "darwin" }}
 export PATH="$HOME/Developer/openjml-macos-13-21-0.18:$PATH"
+{{- end }}
 ## HOMEBREW CONFIG
 export HOMEBREW_NO_AUTO_UPDATE=1
 
@@ -40,7 +48,15 @@ precmd() {
 }
 
 
+{{- if eq .chezmoi.os "darwin" }}
 source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
+{{- else }}
+if [ -f /usr/share/zsh-antidote/antidote.zsh ]; then
+  source /usr/share/zsh-antidote/antidote.zsh
+elif [ -f /usr/share/antidote/antidote.zsh ]; then
+  source /usr/share/antidote/antidote.zsh
+fi
+{{- end }}
 
 #KEYBINDING
 bindkey '^[[A' up-line-or-search
@@ -83,4 +99,6 @@ DRACULA_TIME_FORMAT="%H:%M"
 DRACULA_DISPLAY_FULL_CWD=1
 DRACULA_DISPLAY_CONTEXT=1
 
-antidote load
+if command -v antidote >/dev/null 2>&1; then
+  antidote load
+fi

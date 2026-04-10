@@ -1,0 +1,25 @@
+#!/bin/bash
+{{- if and (eq .chezmoi.os "linux") .install_opencode }}
+
+set -euo pipefail
+
+echo "🤖 Installing opencode..."
+
+if sudo pacman -S --needed --noconfirm opencode; then
+  echo "✅ opencode installed with pacman"
+elif command -v yay >/dev/null 2>&1; then
+  echo "⚠️  pacman failed, falling back to yay"
+  yay -S --needed --noconfirm opencode
+else
+  echo "❌ pacman failed and yay is not available"
+  exit 1
+fi
+
+if command -v opencode >/dev/null 2>&1; then
+  echo "✅ opencode is available in PATH"
+else
+  echo "❌ opencode was installed but is not in PATH"
+  exit 1
+fi
+
+{{- end }}

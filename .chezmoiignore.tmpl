@@ -1,0 +1,14 @@
+{{- if eq .chezmoi.os "linux" }}
+run_once_after_configure-macos.sh.tmpl
+run_once_before_install-fonts-darwin.sh.tmpl
+run_once_before_install-packages-darwin.sh.tmpl
+dot_config/sketchybar
+dot_config/yabai
+{{- end }}
+
+{{- if eq .chezmoi.os "darwin" }}
+run_once_before_install-packages-linux.sh.tmpl
+run_once_before_install-fonts-linux.sh.tmpl
+run_once_after_install-opencode-linux.sh.tmpl
+dot_config/niri
+{{- end }}

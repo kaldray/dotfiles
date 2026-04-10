@@ -1,0 +1,93 @@
+#!/bin/bash
+{{- if and (eq .chezmoi.os "linux") .install_linux_packages }}
+
+set -euo pipefail
+
+if ! command -v pacman >/dev/null 2>&1; then
+  echo "❌ This script requires pacman (Arch/EndeavourOS)."
+  exit 1
+fi
+
+AUR_FALLBACK={{ if .install_aur_fallback }}true{{ else }}false{{ end }}
+
+PACMAN_PACKAGES=(
+  git
+  niri
+  zed
+  mise
+  lazygit
+  ghostty
+  caffeine-ng
+  waybar
+  fuzzel
+  eza
+  bat
+  fzf
+  zoxide
+  ripgrep
+  fd
+  unzip
+  jq
+)
+
+AUR_PACKAGES=(
+  zsh-antidote
+)
+
+ensure_yay() {
+  if command -v yay >/dev/null 2>&1; then
+    return 0
+  fi
+
+  echo "📦 Installing yay..."
+  sudo pacman -S --needed --noconfirm base-devel git
+
+  local tmpdir
+  tmpdir="$(mktemp -d)"
+  git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
+  (
+    cd "$tmpdir/yay"
+    makepkg -si --noconfirm
+  )
+  rm -rf "$tmpdir"
+}
+
+echo "🐧 Installing Linux packages..."
+
+missing_packages=()
+
+for pkg in "${PACMAN_PACKAGES[@]}"; do
+  echo "→ pacman: $pkg"
+  if ! sudo pacman -S --needed --noconfirm "$pkg"; then
+    missing_packages+=("$pkg")
+  fi
+done
+
+if [ "${#missing_packages[@]}" -gt 0 ]; then
+  if [ "$AUR_FALLBACK" = "true" ]; then
+    echo "⚠️  Falling back to yay for: ${missing_packages[*]}"
+    ensure_yay
+    for pkg in "${missing_packages[@]}"; do
+      echo "→ yay: $pkg"
+      yay -S --needed --noconfirm "$pkg"
+    done
+  else
+    echo "❌ Failed with pacman: ${missing_packages[*]}"
+    echo "Enable install_aur_fallback to use yay automatically."
+    exit 1
+  fi
+fi
+
+if [ "$AUR_FALLBACK" = "true" ]; then
+  ensure_yay
+  for pkg in "${AUR_PACKAGES[@]}"; do
+    echo "→ yay: $pkg"
+    yay -S --needed --noconfirm "$pkg"
+  done
+else
+  echo "⚠️  Skipping AUR-only packages: ${AUR_PACKAGES[*]}"
+fi
+
+echo "✅ Linux packages installed."
+
+{{- end }}
