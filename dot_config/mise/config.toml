@@ -1,21 +1,59 @@
+[tool_alias]
+oxlint = "github:oxc-project/oxc"
+
 [tools]
-# JavaScript/TypeScript runtimes
-node = "24"                 # Node.js LTS
-deno = "latest"             # Deno runtime
 
-# Python
-python = "3.13"             # Python 3.13
+node = "24.20.0"
+python = "latest"
+rust = "latest"
 
-# Java
-java = "21"                 # Java LTS (OpenJDK 21) - required for OpenJML
 
+usage = "latest"
+watchexec = "latest"
+
+
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+
+"npm:vscode-langservers-extracted" = "latest"
+"npm:vscode-json-languageserver" = "latest"
+"npm:@astrojs/language-server" = "latest"
+"npm:@vue/language-server" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+
+
+"pipx:basedpyright" = "latest"
+"pipx:ruff" = "latest"
+"pipx:sqlit-tui" = "latest"
+
+tuist = "4.39.1"
+swiftlint = "0.54.0"
+swiftformat = "0.53.3"
+
+
+[tools.oxlint]
+version = "apps_v1.79.0"
+matching = "oxlint"
+rename_exe = "oxlint"
 
 [settings]
-# Auto-install tools when entering directory with .tool-versions
-legacy_version_file = true
-
-# Use verbose output for debugging (set to true if needed)
-verbose = false
 
 [settings.npm]
 package_manager = "pnpm"
+
+[settings.python]
+venv_stdlib = true
+
+
+
+
+
+
+
+
+
+
+
+
+
+

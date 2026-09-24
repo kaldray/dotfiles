@@ -1,0 +1,12 @@
+#!/bin/bash
+
+options=(
+	style=round
+	width=10
+	hidpi=on
+	ax_focus=on
+	active_color=0xffef9f76
+	blacklist="idea,studio"
+)
+
+borders "${options[@]}"

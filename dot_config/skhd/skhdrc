@@ -1,0 +1,37 @@
+# Switch layout
+cmd + shift - l : /opt/homebrew/bin/yabai -m space --layout "$(/opt/homebrew/bin/yabai -m query --spaces --space | /opt/homebrew/bin/jq -r 'if .type == "bsp" then "stack" else "bsp" end')"
+
+# Swap between windows (stack mode)
+ctrl - left  : /opt/homebrew/bin/yabai -m window --focus stack.next
+ctrl - right : /opt/homebrew/bin/yabai -m window --focus stack.prev
+
+# Change focus (bsp mode)
+ctrl - h : /opt/homebrew/bin/yabai -m window --focus west
+ctrl - j : /opt/homebrew/bin/yabai -m window --focus south
+ctrl - k : /opt/homebrew/bin/yabai -m window --focus north
+ctrl - l : /opt/homebrew/bin/yabai -m window --focus east
+
+# Switch to space
+ctrl - 0x12 : /opt/homebrew/bin/yabai -m space --focus 1
+ctrl - 0x13 : /opt/homebrew/bin/yabai -m space --focus 2
+ctrl - 0x14 : /opt/homebrew/bin/yabai -m space --focus 3
+ctrl - 0x15 : /opt/homebrew/bin/yabai -m space --focus 4
+ctrl - 0x16 : /opt/homebrew/bin/yabai -m space --focus 5
+
+# Navigate between spaces
+ctrl + alt - left  : /opt/homebrew/bin/yabai -m space --focus prev
+ctrl + alt - right : /opt/homebrew/bin/yabai -m space --focus next
+
+# Move window to space
+ctrl + alt - 0x12 : /opt/homebrew/bin/yabai -m window --space 1
+ctrl + alt - 0x13 : /opt/homebrew/bin/yabai -m window --space 2
+ctrl + alt - 0x14 : /opt/homebrew/bin/yabai -m window --space 3
+ctrl + alt - 0x15 : /opt/homebrew/bin/yabai -m window --space 4
+ctrl + alt - 0x16 : /opt/homebrew/bin/yabai -m window --space 5
+
+.device apple_internal_keyboard_trackpad {
+    vendor:  0x05ac,
+    product: 0x0281,
+}
+
+.remap caps_lock [device apple_internal_keyboard_trackpad] : escape

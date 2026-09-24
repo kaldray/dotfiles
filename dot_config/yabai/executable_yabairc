@@ -1,0 +1,58 @@
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+yabai -m config layout stack
+yabai -m config window_placement second_child
+
+
+#yabai -m config --space 1 layout stack
+yabai -m config --space 2 layout stack
+yabai -m config --space 3 layout bsp
+
+# Spacing around windows
+yabai -m config top_padding 12
+yabai -m config bottom_padding 12
+yabai -m config left_padding 12
+yabai -m config right_padding 12
+yabai -m config window_gap 12
+yabai -m config external_bar all:40:0
+yabai -m config active_window_opacity 0.9
+yabai -m config normal_window_opacity 0.6
+yabai -m config split_type vertical
+
+
+# Rules
+yabai -m rule --add app="^Ghostty$" space=3
+yabai -m rule --add app="^Zed$" space=2
+#yabai -m rule --add app="^Orion$" space=1
+yabai -m rule --add app="^Arc$" space=1
+
+# Manage off
+yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^System Settings$" manage=off
+
+# Signal - sketchybar updates
+yabai -m signal --add event=window_focused action="sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=window_destroyed action="sleep 0.3 && sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=application_front_switched action="sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=application_terminated action="sleep 0.3 && sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=window_resized action="sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=window_moved action="sketchybar --trigger yabai_window_focus"
+yabai -m signal --add event=space_changed action="sketchybar --trigger yabai_space_update"
+yabai -m signal --add event=space_created action="sketchybar --trigger yabai_space_update"
+yabai -m signal --add event=space_destroyed action="sketchybar --trigger yabai_space_update"
+yabai -m signal --add event=display_added action="sketchybar --trigger yabai_display_update"
+yabai -m signal --add event=display_removed action="sketchybar --trigger yabai_display_update"
+yabai -m signal --add event=display_changed action="sketchybar --trigger yabai_display_update"
+yabai -m signal --add event=display_resized action="sketchybar --trigger yabai_display_update"
+
+yabai -m signal --add event=window_created action='
+  app=$(yabai -m query --windows --window $YABAI_WINDOW_ID | jq -r ".app")
+  if [[ "$app" != "Orion" && "$app" != "Arc" ]]; then
+    yabai -m window --focus $YABAI_WINDOW_ID
+  fi
+'
+
+# yabai -m config window_shadow on
