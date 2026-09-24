@@ -1,77 +1,113 @@
-# ============================================
-# CORE SYSTEM TOOLS
-# ============================================
-brew "chezmoi"              # Dotfiles manager
-brew "mise"                 # Runtime version manager (manages: node, python, deno, java)
+# Brewfile généré à partir de votre liste
 
+# Formulae (packages)
+brew "antidote"
+brew "aom"
+brew "apr"
+brew "apr-util"
+brew "argon2"
+brew "aspell"
+brew "autoconf"
+brew "bash-language-server"
+brew "brotli"
+brew "c-ares"
+brew "ca-certificates"
+brew "cairo"
+brew "chezmoi"
+brew "cocoapods"
+brew "curl"
+brew "deno"
+brew "flyctl"
+brew "fontconfig"
+brew "freetds"
+brew "freetype"
+brew "fzf"
+brew "gd"
+brew "gettext"
+brew "giflib"
+brew "glib"
+brew "gmp"
+brew "graphite2"
+brew "harfbuzz"
+brew "highway"
+brew "icu4c@76"
+brew "icu4c@77"
+brew "imath"
+brew "jpeg-turbo"
+brew "jpeg-xl"
+brew "krb5"
+brew "lazygit"
+brew "libavif"
+brew "libdeflate"
+brew "libnghttp2"
+brew "libpng"
+brew "libpq"
+brew "libsodium"
+brew "libssh2"
+brew "libtiff"
+brew "libtool"
+brew "libunistring"
+brew "libuv"
+brew "libvmaf"
+brew "libx11"
+brew "libxau"
+brew "libxcb"
+brew "libxdmcp"
+brew "libxext"
+brew "libxrender"
+brew "libyaml"
+brew "libzip"
+brew "little-cms2"
+brew "lz4"
+brew "lzo"
+brew "m4"
+brew "mailhog"
+brew "mailpit"
+brew "mkcert"
+brew "mpdecimal"
+brew "net-snmp"
+brew "nixpacks"
+brew "node"
+brew "nspr"
+brew "nss"
+brew "oniguruma"
+brew "openexr"
+brew "openjdk"
+brew "openldap"
+brew "openssl@3"
+brew "pcre2"
+brew "php"
+brew "php@8.1"
+brew "pixman"
+brew "pkgx"
+brew "pnpm"
+brew "python-tk@3.13"
+brew "python@3.13"
+brew "readline"
+brew "rtmpdump"
+brew "ruby"
+brew "shellcheck"
+brew "sqlite"
+brew "symfony-cli"
+brew "tcl-tk"
+brew "tidy-html5"
+brew "unixodbc"
+brew "webp"
+brew "xorgproto"
+brew "xz"
+brew "zoxide"
+brew "zstd"
 
-# ============================================
-# PHP STACK (managed by Homebrew for Herd compatibility)
-# ============================================
-brew "php"                  # PHP (current version)
-brew "php@8.1"              # PHP 8.1
-
-
-# ============================================
-# DEVELOPMENT TOOLS
-# ============================================
-brew "cocoapods"            # iOS dependency manager
-brew "symfony-cli"          # Symfony framework CLI
-brew "nixpacks"             # Build tool for deployment
-
-
-# ============================================
-# CLI UTILITIES
-# ============================================
-brew "fzf"                  # Fuzzy finder
-brew "zoxide"               # Smarter cd command
-brew "lazygit"              # Terminal UI for git
-brew "antidote"             # Zsh plugin manager
-brew "shellcheck"           # Shell script linter
-brew "flyctl"               # Fly.io CLI
-brew "mkcert"               # Local HTTPS certificates
-brew "pkgx"                 # Package runner
-
-
-# ============================================
-# MAIL & NETWORKING
-# ============================================
-brew "mailhog"              # Email testing tool
-brew "mailpit"              # Email testing tool
-
-
-# ============================================
-# APPLICATIONS (CASKS)
-# ============================================
-
-# Browsers
-cask "arc"                  # Modern browser
-cask "zen-browser"          # Privacy-focused browser
-
-# Development
-cask "visual-studio-code"   # Code editor
-cask "zed"                  # Modern code editor
-cask "db-browser-for-sqlite" # SQLite GUI
-
-# Containers & Virtualization
-cask "orbstack"             # Fast Docker Desktop alternative
-
-# PHP Development
-cask "herd"                 # Laravel Herd (PHP/MySQL/services)
-
-# Terminal
-cask "ghostty"              # Fast terminal emulator
-
-# Productivity
-cask "raycast"              # Spotlight replacement
-
-# Utilities
-cask "background-music"     # Per-app volume control
-cask "ngrok"                # Tunneling tool
-
-
-# ============================================
-# FONTS
-# ============================================
-cask "font-jetbrains-mono-nerd-font"    # Popular coding font with icons
-cask "font-daddy-time-mono-nerd-font"   # Coding font with ligatures
+# Casks (applications)
+cask "arc"
+cask "background-music"
+cask "db-browser-for-sqlite"
+cask "docker"
+cask "ghostty" 
+cask "ngrok"
+cask "raycast"
+cask "visual-studio-code"
+cask "zed"
+cask "zen-browser"
+cask "font-daddy-time-mono-nerd-font" 
+cask "font-jetbrains-mono-nerd-font"

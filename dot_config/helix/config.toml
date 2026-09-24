@@ -1,0 +1,10 @@
+theme = "catppuccin_frappe"
+[editor.lsp]
+display-inlay-hints = false
+
+
+[editor.cursor-shape]
+insert = "bar"
+
+
+

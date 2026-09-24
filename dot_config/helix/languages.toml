@@ -1,0 +1,18 @@
+[language-server]
+oxlint-language-server = { command = "oxlint-lsp", args = ["--lsp"] }
+
+[[language]]
+name = "javascript"
+language-servers = [ "typescript-language-server", "oxlint-language-server" ]
+
+[[language]]
+name = "typescript"
+language-servers = [ "typescript-language-server", "oxlint-language-server" ]
+
+[[language]]
+name = "jsx"
+language-servers = [ "typescript-language-server", "oxlint-language-server" ]
+
+[[language]]
+name = "tsx"
+language-servers = [ "typescript-language-server", "oxlint-language-server" ]
