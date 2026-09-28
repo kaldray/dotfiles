@@ -89,11 +89,8 @@ echo "════════════════════════�
 echo "✅ mise tools setup complete!"
 echo "════════════════════════════════════════"
 echo ""
-echo "📋 Installed runtimes:"
-echo "  • Node.js $(mise where node 2>/dev/null | xargs -I {} echo "({})") "
-echo "  • Python $(mise where python 2>/dev/null | xargs -I {} echo "({})") "
-echo "  • Deno $(mise where deno 2>/dev/null | xargs -I {} echo "({})") "
-echo "  • Java $(mise where java 2>/dev/null | xargs -I {} echo "({})") "
+echo "📋 Installed tools:"
+mise list
 echo ""
 echo "💡 Usage:"
 echo "  • mise list              - Show installed tools"

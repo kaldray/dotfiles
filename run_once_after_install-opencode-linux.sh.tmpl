@@ -1,24 +1,35 @@
-#!/bin/bash
+#!/usr/bin/env bash
 {{- if and (eq .chezmoi.os "linux") .install_opencode }}
 
 set -euo pipefail
 
 echo "🤖 Installing opencode..."
 
-if sudo pacman -S --needed --noconfirm opencode; then
-  echo "✅ opencode installed with pacman"
-elif command -v yay >/dev/null 2>&1; then
-  echo "⚠️  pacman failed, falling back to yay"
-  yay -S --needed --noconfirm opencode
+if command -v opencode >/dev/null 2>&1; then
+  echo "✅ opencode is already installed"
+elif command -v pacman >/dev/null 2>&1; then
+  sudo pacman -S --needed --noconfirm opencode || {
+    if command -v yay >/dev/null 2>&1; then
+      yay -S --needed --noconfirm opencode
+    else
+      curl -fsSL https://opencode.ai/install | bash
+    fi
+  }
+elif command -v dnf >/dev/null 2>&1; then
+  sudo dnf install -y opencode || curl -fsSL https://opencode.ai/install | bash
+elif command -v apt-get >/dev/null 2>&1; then
+  sudo apt-get update
+  sudo apt-get install -y opencode || curl -fsSL https://opencode.ai/install | bash
 else
-  echo "❌ pacman failed and yay is not available"
-  exit 1
+  curl -fsSL https://opencode.ai/install | bash
 fi
+
+export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
 
 if command -v opencode >/dev/null 2>&1; then
   echo "✅ opencode is available in PATH"
 else
-  echo "❌ opencode was installed but is not in PATH"
+  echo "❌ opencode installation failed"
   exit 1
 fi
 

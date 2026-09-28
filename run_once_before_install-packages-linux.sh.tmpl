@@ -1,91 +1,116 @@
-#!/bin/bash
+#!/usr/bin/env bash
 {{- if and (eq .chezmoi.os "linux") .install_linux_packages }}
 
 set -euo pipefail
 
-if ! command -v pacman >/dev/null 2>&1; then
-  echo "❌ This script requires pacman (Arch/EndeavourOS)."
-  exit 1
+# Linux package installation is intentionally split by distribution. GUI
+# packages are only attempted on native Linux; WSL skips them by default.
+is_wsl=0
+if grep -qiE '(microsoft|wsl)' /proc/version 2>/dev/null; then
+  is_wsl=1
 fi
 
-AUR_FALLBACK={{ if .install_aur_fallback }}true{{ else }}false{{ end }}
+install_packages() {
+  local manager="$1"
+  shift
+  local -a packages=("$@")
 
-PACMAN_PACKAGES=(
-  git
-  niri
-  zed
-  mise
-  lazygit
-  ghostty
-  caffeine-ng
-  waybar
-  fuzzel
-  eza
-  bat
-  fzf
-  zoxide
-  ripgrep
-  fd
-  unzip
-  jq
-)
-
-AUR_PACKAGES=(
-  zsh-antidote
-)
-
-ensure_yay() {
-  if command -v yay >/dev/null 2>&1; then
+  if [ "${#packages[@]}" -eq 0 ]; then
     return 0
   fi
 
-  echo "📦 Installing yay..."
-  sudo pacman -S --needed --noconfirm base-devel git
-
-  local tmpdir
-  tmpdir="$(mktemp -d)"
-  git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
-  (
-    cd "$tmpdir/yay"
-    makepkg -si --noconfirm
-  )
-  rm -rf "$tmpdir"
+  case "$manager" in
+    pacman)
+      sudo pacman -S --needed --noconfirm "${packages[@]}"
+      ;;
+    dnf)
+      sudo dnf install -y "${packages[@]}"
+      ;;
+    apt)
+      if command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get update
+        sudo apt-get install -y "${packages[@]}"
+      fi
+      ;;
+  esac
 }
 
-echo "🐧 Installing Linux packages..."
+install_optional_packages() {
+  local manager="$1"
+  shift
+  local package
+  for package in "$@"; do
+    echo "→ optional: $package"
+    if ! install_packages "$manager" "$package"; then
+      echo "⚠️  Package unavailable on this system: $package"
+    fi
+  done
+}
 
-missing_packages=()
+install_arch() {
+  install_packages pacman \
+    git curl unzip jq eza bat fzf zoxide ripgrep fd helix
+  install_optional_packages pacman \
+    niri zed mise lazygit ghostty caffeine-ng waybar fuzzel
+}
 
-for pkg in "${PACMAN_PACKAGES[@]}"; do
-  echo "→ pacman: $pkg"
-  if ! sudo pacman -S --needed --noconfirm "$pkg"; then
-    missing_packages+=("$pkg")
-  fi
-done
+install_fedora() {
+  install_packages dnf \
+    git curl unzip jq eza bat fzf zoxide ripgrep fd helix
+  install_optional_packages dnf \
+    niri zed mise lazygit ghostty caffeine-ng waybar fuzzel
+}
 
-if [ "${#missing_packages[@]}" -gt 0 ]; then
-  if [ "$AUR_FALLBACK" = "true" ]; then
-    echo "⚠️  Falling back to yay for: ${missing_packages[*]}"
-    ensure_yay
-    for pkg in "${missing_packages[@]}"; do
-      echo "→ yay: $pkg"
-      yay -S --needed --noconfirm "$pkg"
-    done
-  else
-    echo "❌ Failed with pacman: ${missing_packages[*]}"
-    echo "Enable install_aur_fallback to use yay automatically."
-    exit 1
-  fi
+install_debian() {
+  install_packages apt \
+    git curl unzip jq eza bat fzf zoxide ripgrep fd helix \
+    fontconfig
+  install_optional_packages apt lazygit
+}
+
+if command -v pacman >/dev/null 2>&1; then
+  echo "🐧 Installing packages with pacman (Arch Linux)..."
+  install_arch
+elif command -v dnf >/dev/null 2>&1; then
+  echo "🐧 Installing packages with dnf (Fedora)..."
+  install_fedora
+elif command -v apt-get >/dev/null 2>&1; then
+  echo "🐧 Installing packages with apt (Debian)..."
+  install_debian
+else
+  echo "❌ Unsupported Linux distribution: install dnf, pacman or apt first."
+  exit 1
 fi
 
-if [ "$AUR_FALLBACK" = "true" ]; then
-  ensure_yay
-  for pkg in "${AUR_PACKAGES[@]}"; do
-    echo "→ yay: $pkg"
-    yay -S --needed --noconfirm "$pkg"
-  done
+# mise is not consistently packaged across distributions. Install the
+# official client only when the package manager did not provide it.
+if ! command -v mise >/dev/null 2>&1; then
+  echo "📦 Installing mise from its official installer..."
+  curl -fsSL https://mise.run | sh
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+{{- if eq .install_aur_fallback }}
+
+if command -v pacman >/dev/null 2>&1; then
+  if ! command -v yay >/dev/null 2>&1; then
+    echo "📦 Installing yay for AUR packages..."
+    tmpdir="$(mktemp -d)"
+    git clone https://aur.archlinux.org/yay.git "$tmpdir/yay"
+    (
+      cd "$tmpdir/yay"
+      makepkg -si --noconfirm
+    )
+    rm -rf "$tmpdir"
+  fi
+  yay -S --needed --noconfirm zsh-antidote
+fi
+{{- end }}
+
+if [ "$is_wsl" -eq 1 ]; then
+  echo "🪟 WSL detected: skipping desktop-only packages and services."
 else
-  echo "⚠️  Skipping AUR-only packages: ${AUR_PACKAGES[*]}"
+  echo "🖥️  Native Linux detected: desktop packages requested."
 fi
 
 echo "✅ Linux packages installed."
