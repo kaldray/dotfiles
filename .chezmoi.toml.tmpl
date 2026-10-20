@@ -7,6 +7,7 @@
 {{- $install_linux_packages := true -}}
 {{- $install_aur_fallback := true -}}
 {{- $install_opencode := true -}}
+{{- $profile := "personal" -}}
 
 {{- if stdinIsATTY -}}
 
@@ -16,6 +17,7 @@
 {{- $install_dev_tools = promptBool "Install development tools (mise, node, python)" $install_dev_tools -}}
 
 {{- if eq .chezmoi.os "linux" -}}
+{{- $profile = promptChoice "Git profile for this Linux machine" (list "work" "personal") "personal" -}}
 {{- $install_linux_packages = promptBool "Install Linux packages (niri, zed, mise, lazygit, ghostty, caffeine-ng)" $install_linux_packages -}}
 {{- $install_aur_fallback = promptBool "Use yay fallback when pacman package is missing" $install_aur_fallback -}}
 {{- $install_opencode = promptBool "Install opencode CLI" $install_opencode -}}
@@ -23,8 +25,17 @@
 {{- end -}}
 
 {{- if eq .chezmoi.os "darwin" -}}
+{{- $profile = "personal" -}}
 {{- $install_fonts = promptBool "Install Nerd Fonts" $install_fonts -}}
 {{- $configure_system = promptBool "Configure macOS system preferences" $configure_system -}}
+{{- end -}}
+
+{{- if eq $profile "work" -}}
+{{- $git_name = "jkalenga" -}}
+{{- $git_email = "jkalenga@stillnetwork.com" -}}
+{{- else -}}
+{{- $git_name = "jklenga" -}}
+{{- $git_email = "jordray@protonmail.com" -}}
 {{- end -}}
 
 {{- end -}}
@@ -43,3 +54,4 @@
     install_linux_packages = {{ $install_linux_packages }}
     install_aur_fallback = {{ $install_aur_fallback }}
     install_opencode = {{ $install_opencode }}
+    profile = {{ $profile | quote }}

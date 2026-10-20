@@ -99,6 +99,9 @@ brew "zoxide"
 brew "zstd"
 
 # Casks (applications)
+cask "t3-code"
+cask "codex"
+cask "claude-code"
 cask "arc"
 cask "background-music"
 cask "db-browser-for-sqlite"

@@ -51,7 +51,7 @@ install_arch() {
   install_packages pacman \
     git curl unzip jq eza bat fzf zoxide ripgrep fd helix
   install_optional_packages pacman \
-    niri zed mise lazygit ghostty caffeine-ng waybar fuzzel
+    niri zed mise lazygit ghostty caffeine-ng waybar fuzzel t3code-bin
 }
 
 install_fedora() {
@@ -114,5 +114,15 @@ else
 fi
 
 echo "✅ Linux packages installed."
+
+# Install the coding-agent CLIs used by T3 Code.
+if ! command -v codex >/dev/null 2>&1; then
+  echo "🤖 Installing Codex CLI..."
+  curl -fsSL https://chatgpt.com/codex/install.sh | bash
+fi
+if ! command -v claude >/dev/null 2>&1; then
+  echo "🤖 Installing Claude Code CLI..."
+  curl -fsSL https://claude.ai/install.sh | bash
+fi
 
 {{- end }}
