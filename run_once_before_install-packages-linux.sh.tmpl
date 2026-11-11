@@ -90,7 +90,7 @@ if ! command -v mise >/dev/null 2>&1; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-{{- if eq .install_aur_fallback }}
+{{- if .install_aur_fallback }}
 
 if command -v pacman >/dev/null 2>&1; then
   if ! command -v yay >/dev/null 2>&1; then
