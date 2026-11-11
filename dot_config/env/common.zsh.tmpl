@@ -1,0 +1,8 @@
+export ROOT="{{ .chezmoi.homeDir }}"
+export NODE_ENV=development
+export STATLIST_SSH="{{ .chezmoi.homeDir }}/.ssh/vps_statlist"
+export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --info=inline --border --margin=1 --padding=1"
+export PATH="$PATH:{{ .chezmoi.homeDir }}/.local/bin"
+export PATH="$HOME/Developer/flutter/bin:$PATH"
+export PATH="{{ .chezmoi.homeDir }}/.opencode/bin:$PATH"
+export HOMEBREW_NO_AUTO_UPDATE=1

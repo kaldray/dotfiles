@@ -1,37 +1,11 @@
-{{- if eq .chezmoi.os "darwin" }}
-export PNPM_HOME="{{ .chezmoi.homeDir }}/Library/pnpm"
-{{- else }}
-export PNPM_HOME="{{ .chezmoi.homeDir }}/.local/share/pnpm"
-{{- end }}
-export PATH="$PNPM_HOME:$PATH"
-export ROOT={{ .chezmoi.homeDir }}
-{{- if eq .chezmoi.os "darwin" }}
-export PATH=/opt/homebrew/bin:$PATH
-{{- end }}
-export NODE_ENV=development
-export STATLIST_SSH="{{ .chezmoi.homeDir }}/.ssh/vps_statlist"
-export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --info=inline --border --margin=1 --padding=1"
-export PATH=$PATH:{{ .chezmoi.homeDir }}/.local/bin
-export PATH=$HOME/Developer/flutter/bin:$PATH
 export XDG_CONFIG_HOME="$HOME/.config"
-export PATH={{ .chezmoi.homeDir }}/.opencode/bin:$PATH
-{{- if .is_work_machine }}
-export PATH="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/bin/":$PATH
-export HERD_PHP_82_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/82/"
-export HERD_PHP_74_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/74/"
-{{- end }}
+source "$XDG_CONFIG_HOME/env/common.zsh"
 {{- if eq .chezmoi.os "darwin" }}
-export PATH="$HOME/Developer/openjml-macos-13-21-0.18:$PATH"
+source "$XDG_CONFIG_HOME/env/darwin.zsh"
+{{- else if eq .chezmoi.os "linux" }}
+source "$XDG_CONFIG_HOME/env/linux.zsh"
 {{- end }}
-## HOMEBREW CONFIG
-export HOMEBREW_NO_AUTO_UPDATE=1
 
-# Herd injected PHP 8.3 configuration.
-{{- if .is_work_machine }}
-# export HERD_PHP_83_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/83/"
-# Herd injected PHP binary.
-# export PATH="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/bin/":$PATH
-{{- end }}
 # export PATH="/opt/homebrew/sbin:$PATH"
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

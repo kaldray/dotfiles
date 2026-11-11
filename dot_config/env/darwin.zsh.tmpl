@@ -1,0 +1,10 @@
+export PNPM_HOME="{{ .chezmoi.homeDir }}/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/Developer/openjml-macos-13-21-0.18:$PATH"
+
+{{- if .is_work_machine }}
+export PATH="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/bin/:$PATH"
+export HERD_PHP_82_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/82/"
+export HERD_PHP_74_INI_SCAN_DIR="{{ .chezmoi.homeDir }}/Library/Application Support/Herd/config/php/74/"
+{{- end }}
